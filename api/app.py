@@ -251,11 +251,13 @@ def load_conf():
 #Load the data from the app
 data_dir = "static/"
 def load_data():
+    print("A")
     #Load cards
     with open(data_dir+'1common.csv','r') as csvfile:
         reader = csv.reader(csvfile, delimiter=',')
         for row in reader:
             commonCards.append(row)
+    print("B")
     with open(data_dir+'2uncommon.csv','r') as csvfile:
         reader = csv.reader(csvfile, delimiter=',')
         for row in reader:
@@ -295,5 +297,6 @@ def load_settings(data):
     nPacks = data["nPacks"]
 
 with app.app_context():
+    print("LOADING DATA...")
     load_data()
     print("Data loaded successfully!")
