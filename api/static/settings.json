@@ -1,0 +1,51 @@
+{
+    "probabilities": {
+        "common":0.3,
+        "uncommon":0.25,
+        "rare": 0.2, 
+        "epic": 0.15,
+        "legendary": 0.1 
+    },
+
+    "nCardsInPack": 0, 
+    "nPacks": 2,
+
+    "modifications": {
+        "commonpick":{
+            "commonmod":-0.05,
+            "uncommonmod":0.05,
+            "raremod":0,
+            "epicmod":0,
+            "legendarymod":0
+        },
+        "uncommonpick":{
+            "commonmod":0.025,
+            "uncommonmod":-0.05,
+            "raremod":0.025,
+            "epicmod":0,
+            "legendarymod":0
+        },
+        "rarepick":{
+            "commonmod":0,
+            "uncommonmod":0.025,
+            "raremod":-0.05,
+            "epicmod":0.025,
+            "legendarymod":0
+        },
+        "epicpick":{
+            "commonmod":0,
+            "uncommonmod":0,
+            "raremod":0.025,
+            "epicmod":-0.05,
+            "legendarymod":0.025
+        },
+        "legendarypick":{
+            "commonmod":0,
+            "uncommonmod":0,
+            "raremod":0,
+            "epicmod":0,
+            "legendarymod":-0.05
+        }
+    },
+    "minProbAfterMod": 0.025 
+}
