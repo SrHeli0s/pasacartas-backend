@@ -1,5 +1,4 @@
 from flask import Flask, request
-from flask_cors import CORS
 import random
 import string
 import json
@@ -8,7 +7,6 @@ import random
 import copy
 
 app = Flask(__name__)
-CORS(app)
 
 commonCards = []
 uncommonCards = []
