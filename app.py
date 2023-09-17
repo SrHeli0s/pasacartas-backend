@@ -251,7 +251,7 @@ def load_conf():
 
 
 #Load the data from the app
-data_dir = "api/static/"
+data_dir = "static/"
 def load_data():
     #Load cards
     with open(data_dir+'1common.csv','r') as csvfile:
