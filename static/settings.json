@@ -1,13 +1,13 @@
 {
     "probabilities": {
-        "common":0.3,
-        "uncommon":0.25,
-        "rare": 0.2, 
-        "epic": 0.15,
-        "legendary": 0.1 
+        "common":0.5,
+        "uncommon":0.2,
+        "rare": 0.15, 
+        "epic": 0.1,
+        "legendary": 0.05 
     },
 
-    "nCardsInPack": 0, 
+    "nCardsInPack": 5, 
     "nPacks": 2,
 
     "modifications": {
