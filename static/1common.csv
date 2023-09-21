@@ -1,211 +1,229 @@
-Absol
-Aggron
-Ampharos
-Ariados
-Armaldo
-Audino
-Aurorus
-Avalugg
-Bastiodon
-Beartic
-Beheeyem
-Cacturne
-Carracosta
-Charizard
-Clawitzer
-Claydol
-Cradily
-Crustle
-Dodrio
-Drifblim
-Dugtrio-Alola
-Dusclops
-Dusknoir
-Eldegoss
-Electivire
-Exeggutor-Alola
-Ferroseed
-Flareon
-Floatzel
-Glaceon
-Golem
-Golem-Alola
-Gorebyss
-Gourgeist
-Granbull
-Grapploct
-Gumshoos
-Gurdurr
-Haunter
-Hitmonchan
-Houndoom
-Huntail
-Jynx
-Klinklang
-Lanturn
-Leafeon
-Leavanny
-Lickilicky
-Liepard
-Lilligant
-Luxray
-Lycanroc-Midnight
-Magmortar
-Masquerain
-Mawile
-Morpeko
-Mr. Rime
-Mr. Mime-Galar
-Mudsdale
-Muk
-Musharna
-Palossand
-Passimian
-Persian-Alola
-Primeape
-Probopass
-Pyukumuku
-Qwilfish
-Raichu
-Rampardos
-Rapidash
-Regice
-Relicanth
-Roselia
-Rotom-Frost
-Sableye
-Sandslash-Alola
-Sceptile
-Scyther
-Shiftry
-Sigilyph
-Skuntank
-Stonjourner
-Stoutland
-Stunfisk
-Stunfisk-Galar
-Sudowoodo
-Swoobat
-Tangela
-Tauros
-Throh
-Togedemaru
-Togetic
-Torterra
-Turtonator
-Type-Null
-Ursaring
-Victreebel
-Vileplume
-Volbeat
-Wishiwashi
-Xatu
-Zebstrika
-Altaria
-Arbok
-Banette
-Basculin
-Beautifly
-Beedrill
-Bibarel
-Butterfree
-Camerupt
-Carbink
-Castform
-Chatot
-Cherrim
-Chimecho
-Corsola
-Crabominable
-Cramorant
-Delcatty
-Delibird
-Dewgong
-Dunsparce
-Dustox
-Electabuzz
-Electrode
-Exeggutor
-Fearow
-Gabite
-Girafarig
-Glalie
-Gogoat
-Golduck
-Golem
-Gothorita
-Grumpig
-Heatmor
-Hypno
-Illumise
-Jumpluff
-Kadabra
-Kangaskhan
-Kingler
-Kricketune
-Lapras
-Ledian
-Lopunny
-Lunatone
-Lurantis
-Luvdisc
-Magcargo
-Magmar
-Malamar
-Maractus
-Marowak
-Meganium
-Meowstic
-Mightyena
-Minun
-Misdreavus
-Monferno
-Mothim
-Mr. Mime
-Munchlax
-Noctowl
-Octillery
-Oranguru
-Oricorio
-Pachirisu
-Parasect
-Persian
-Pidgeot
-Pinsir
-Plusle
-Prinplup
-Purugly
-Raticate
-Raticate-Alola
-Regigigas
-Samurott
-Sandslash
-Sawsbuck
-Seaking
-Seviper
-Shelmet
-Shiinotic
-Simipour
-Simisage
-Simisear
-Slaking
-Sliggoo
-Solrock
-Spinda
-Sunflora
-Swadloon
-Swalot
-Swanna
-Thievul
-Toucannon
-Tropius
-Unfezant
-Vespiquen
-Vivillon
-Wailord
-Walrein
-Wartortle
-Watchog
-Whiscash
-Wigglytuff
-Wormadam
+Absol,pokemon Absol
+Aggron,pokemon Aggron
+Ampharos,pokemon Ampharos
+Ariados,pokemon Ariados
+Armaldo,pokemon Armaldo
+Audino,pokemon Audino
+Aurorus,pokemon Aurorus
+Avalugg,pokemon Avalugg
+Bastiodon,pokemon Bastiodon
+Beartic,pokemon Beartic
+Beheeyem,pokemon Beheeyem
+Cacturne,pokemon Cacturne
+Carracosta,pokemon Carracosta
+Charizard,pokemon Charizard
+Clawitzer,pokemon Clawitzer
+Claydol,pokemon Claydol
+Cradily,pokemon Cradily
+Crustle,pokemon Crustle
+Dodrio,pokemon Dodrio
+Drifblim,pokemon Drifblim
+Dugtrio-Alola,pokemon Dugtrio-Alola
+Dusclops,pokemon Dusclops
+Dusknoir,pokemon Dusknoir
+Eldegoss,pokemon Eldegoss
+Electivire,pokemon Electivire
+Exeggutor-Alola,pokemon Exeggutor-Alola
+Ferroseed,pokemon Ferroseed
+Flareon,pokemon Flareon
+Floatzel,pokemon Floatzel
+Glaceon,pokemon Glaceon
+Golem,pokemon Golem
+Golem-Alola,pokemon Golem-Alola
+Gorebyss,pokemon Gorebyss
+Gourgeist,pokemon Gourgeist
+Granbull,pokemon Granbull
+Grapploct,pokemon Grapploct
+Gumshoos,pokemon Gumshoos
+Gurdurr,pokemon Gurdurr
+Haunter,pokemon Haunter
+Hitmonchan,pokemon Hitmonchan
+Houndoom,pokemon Houndoom
+Huntail,pokemon Huntail
+Jynx,pokemon Jynx
+Klinklang,pokemon Klinklang
+Lanturn,pokemon Lanturn
+Leafeon,pokemon Leafeon
+Leavanny,pokemon Leavanny
+Lickilicky,pokemon Lickilicky
+Liepard,pokemon Liepard
+Lilligant,pokemon Lilligant
+Luxray,pokemon Luxray
+Lycanroc-Midnight,pokemon Lycanroc-Midnight
+Magmortar,pokemon Magmortar
+Masquerain,pokemon Masquerain
+Mawile,pokemon Mawile
+Morpeko,pokemon Morpeko
+Mr. Rime,pokemon Mr._Rime
+Mr. Mime-Galar,pokemon Mr._Mime-Galar
+Mudsdale,pokemon Mudsdale
+Muk,pokemon Muk
+Musharna,pokemon Musharna
+Palossand,pokemon Palossand
+Passimian,pokemon Passimian
+Persian-Alola,pokemon Persian-Alola
+Primeape,pokemon Primeape
+Probopass,pokemon Probopass
+Pyukumuku,pokemon Pyukumuku
+Qwilfish,pokemon Qwilfish
+Raichu,pokemon Raichu
+Rampardos,pokemon Rampardos
+Rapidash,pokemon Rapidash
+Regice,pokemon Regice
+Relicanth,pokemon Relicanth
+Roselia,pokemon Roselia
+Rotom-Frost,pokemon Rotom-Frost
+Sableye,pokemon Sableye
+Sandslash-Alola,pokemon Sandslash-Alola
+Sceptile,pokemon Sceptile
+Scyther,pokemon Scyther
+Shiftry,pokemon Shiftry
+Sigilyph,pokemon Sigilyph
+Skuntank,pokemon Skuntank
+Stonjourner,pokemon Stonjourner
+Stoutland,pokemon Stoutland
+Stunfisk,pokemon Stunfisk
+Stunfisk-Galar,pokemon Stunfisk-Galar
+Sudowoodo,pokemon Sudowoodo
+Swoobat,pokemon Swoobat
+Tangela,pokemon Tangela
+Tauros,pokemon Tauros
+Throh,pokemon Throh
+Togedemaru,pokemon Togedemaru
+Togetic,pokemon Togetic
+Torterra,pokemon Torterra
+Turtonator,pokemon Turtonator
+Type-Null,pokemon Type-Null
+Ursaring,pokemon Ursaring
+Victreebel,pokemon Victreebel
+Vileplume,pokemon Vileplume
+Volbeat,pokemon Volbeat
+Wishiwashi,pokemon Wishiwashi
+Xatu,pokemon Xatu
+Zebstrika,pokemon Zebstrika
+Altaria,pokemon Altaria
+Arbok,pokemon Arbok
+Banette,pokemon Banette
+Basculin,pokemon Basculin
+Beautifly,pokemon Beautifly
+Beedrill,pokemon Beedrill
+Bibarel,pokemon Bibarel
+Butterfree,pokemon Butterfree
+Camerupt,pokemon Camerupt
+Carbink,pokemon Carbink
+Castform,pokemon Castform
+Chatot,pokemon Chatot
+Cherrim,pokemon Cherrim
+Chimecho,pokemon Chimecho
+Corsola,pokemon Corsola
+Crabominable,pokemon Crabominable
+Cramorant,pokemon Cramorant
+Delcatty,pokemon Delcatty
+Delibird,pokemon Delibird
+Dewgong,pokemon Dewgong
+Dunsparce,pokemon Dunsparce
+Dustox,pokemon Dustox
+Electabuzz,pokemon Electabuzz
+Electrode,pokemon Electrode
+Exeggutor,pokemon Exeggutor
+Fearow,pokemon Fearow
+Gabite,pokemon Gabite
+Girafarig,pokemon Girafarig
+Glalie,pokemon Glalie
+Gogoat,pokemon Gogoat
+Golduck,pokemon Golduck
+Golem,pokemon Golem
+Gothorita,pokemon Gothorita
+Grumpig,pokemon Grumpig
+Heatmor,pokemon Heatmor
+Hypno,pokemon Hypno
+Illumise,pokemon Illumise
+Jumpluff,pokemon Jumpluff
+Kadabra,pokemon Kadabra
+Kangaskhan,pokemon Kangaskhan
+Kingler,pokemon Kingler
+Kricketune,pokemon Kricketune
+Lapras,pokemon Lapras
+Ledian,pokemon Ledian
+Lopunny,pokemon Lopunny
+Lunatone,pokemon Lunatone
+Lurantis,pokemon Lurantis
+Luvdisc,pokemon Luvdisc
+Magcargo,pokemon Magcargo
+Magmar,pokemon Magmar
+Malamar,pokemon Malamar
+Maractus,pokemon Maractus
+Marowak,pokemon Marowak
+Meganium,pokemon Meganium
+Meowstic,pokemon Meowstic
+Mightyena,pokemon Mightyena
+Minun,pokemon Minun
+Misdreavus,pokemon Misdreavus
+Monferno,pokemon Monferno
+Mothim,pokemon Mothim
+Mr. Mime,pokemon Mr._Mime
+Munchlax,pokemon Munchlax
+Noctowl,pokemon Noctowl
+Octillery,pokemon Octillery
+Oranguru,pokemon Oranguru
+Oricorio,pokemon Oricorio
+Pachirisu,pokemon Pachirisu
+Parasect,pokemon Parasect
+Persian,pokemon Persian
+Pidgeot,pokemon Pidgeot
+Pinsir,pokemon Pinsir
+Plusle,pokemon Plusle
+Prinplup,pokemon Prinplup
+Purugly,pokemon Purugly
+Raticate,pokemon Raticate
+Raticate-Alola,pokemon Raticate-Alola
+Regigigas,pokemon Regigigas
+Samurott,pokemon Samurott
+Sandslash,pokemon Sandslash
+Sawsbuck,pokemon Sawsbuck
+Seaking,pokemon Seaking
+Seviper,pokemon Seviper
+Shelmet,pokemon Shelmet
+Shiinotic,pokemon Shiinotic
+Simipour,pokemon Simipour
+Simisage,pokemon Simisage
+Simisear,pokemon Simisear
+Slaking,pokemon Slaking
+Sliggoo,pokemon Sliggoo
+Solrock,pokemon Solrock
+Spinda,pokemon Spinda
+Sunflora,pokemon Sunflora
+Swadloon,pokemon Swadloon
+Swalot,pokemon Swalot
+Swanna,pokemon Swanna
+Thievul,pokemon Thievul
+Toucannon,pokemon Toucannon
+Tropius,pokemon Tropius
+Unfezant,pokemon Unfezant
+Vespiquen,pokemon Vespiquen
+Vivillon,pokemon Vivillon
+Wailord,pokemon Wailord
+Walrein,pokemon Walrein
+Wartortle,pokemon Wartortle
+Watchog,pokemon Watchog
+Whiscash,pokemon Whiscash
+Wigglytuff,pokemon Wigglytuff
+Wormadam,pokemon Wormadam
+Normal Gem,item gem Normal
+Fighting Gem,item gem Fighting
+Flying Gem,item gem Flying
+Poison Gem,item gem Poison
+Ground Gem,item gem Ground
+Rock Gem,item gem Rock
+Bug Gem,item gem Bug
+Ghost Gem,item gem Ghost
+Steel Gem,item gem Steel
+Fire Gem,item gem Fire
+Water Gem,item gem Water
+Grass Gem,item gem Grass
+Electric Gem,item gem Electric
+Psychic Gem,item gem Psychic
+Ice Gem,item gem Ice
+Dragon Gem,item gem Dragon
+Dark Gem,item gem Dark
+Fairy Gem,item gem Fairy

@@ -1,101 +1,149 @@
-Accelgor
-Aerodactyl
-Aromatisse
-Braviary
-Cinccino
-Cursola
-Delphox
-Dragalge
-Drapion
-Drednaw
-Dubwool
-Eiscue
-Escavalier
-Exploud
-Falinks
-Frosmoth
-Gastrodon
-Gligar
-Golbat
-Golurk
-Hitmonlee
-Honchkrow
-Jellicent
-Magneton
-Mesprit
-Miltank
-Minior
-Noivern
-Pangoro
-Politoed
-Polteageist
-Quagsire
-Rhyperior
-Ribombee
-Rotom
-Scrafty
-Sirfetch'd
-Sneasel
-Swampert
-Swellow
-Talonflame
-Torkoal
-Tornadus
-Toxicroak
-Tyrantrum
-Vanilluxe
-Weezing-Galar
-Wobbuffet
-Yanmega
-Ambipom
-Archeops
-Articuno
-Barbaracle
-Bewear
-Bruxish
-Centiskorch
-Coalossal
-Cryogonal
-Diancie
-Drampa
-Druddigon
-Eelektross
-Froslass
-Gallade
-Garbodor
-Golisopod
-Greedent
-Guzzlord
-Hariyama
-Hitmontop
-Jolteon
-Kabutops
-Kecleon
-Komala
-Linoone
-Ludicolo
-Manectric
-Mantine
-Mismagius
-Omastar
-Piloswine
-Pincurchin
-Poliwrath
-Pyroar
-Raichu-Alola
-Regirock
-Rhydon
-Rotom-Fan
-Runerigus
-Sawk
-Shuckle
-Smeargle
-Spiritomb
-Steelix
-Trevenant
-Tsareena
-Typhlosion
-Venusaur
-Vikavolt
-Weezing
-Zangoose
+Accelgor,pokemon Accelgor
+Aerodactyl,pokemon Aerodactyl
+Aromatisse,pokemon Aromatisse
+Braviary,pokemon Braviary
+Cinccino,pokemon Cinccino
+Cursola,pokemon Cursola
+Delphox,pokemon Delphox
+Dragalge,pokemon Dragalge
+Drapion,pokemon Drapion
+Drednaw,pokemon Drednaw
+Dubwool,pokemon Dubwool
+Eiscue,pokemon Eiscue
+Escavalier,pokemon Escavalier
+Exploud,pokemon Exploud
+Falinks,pokemon Falinks
+Frosmoth,pokemon Frosmoth
+Gastrodon,pokemon Gastrodon
+Gligar,pokemon Gligar
+Golbat,pokemon Golbat
+Golurk,pokemon Golurk
+Hitmonlee,pokemon Hitmonlee
+Honchkrow,pokemon Honchkrow
+Jellicent,pokemon Jellicent
+Magneton,pokemon Magneton
+Mesprit,pokemon Mesprit
+Miltank,pokemon Miltank
+Minior,pokemon Minior
+Noivern,pokemon Noivern
+Pangoro,pokemon Pangoro
+Politoed,pokemon Politoed
+Polteageist,pokemon Polteageist
+Quagsire,pokemon Quagsire
+Rhyperior,pokemon Rhyperior
+Ribombee,pokemon Ribombee
+Rotom,pokemon Rotom
+Scrafty,pokemon Scrafty
+Sirfetch'd,pokemon Sirfetch'd
+Sneasel,pokemon Sneasel
+Swampert,pokemon Swampert
+Swellow,pokemon Swellow
+Talonflame,pokemon Talonflame
+Torkoal,pokemon Torkoal
+Tornadus,pokemon Tornadus
+Toxicroak,pokemon Toxicroak
+Tyrantrum,pokemon Tyrantrum
+Vanilluxe,pokemon Vanilluxe
+Weezing-Galar,pokemon Weezing-Galar
+Wobbuffet,pokemon Wobbuffet
+Yanmega,pokemon Yanmega
+Ambipom,pokemon Ambipom
+Archeops,pokemon Archeops
+Articuno,pokemon Articuno
+Barbaracle,pokemon Barbaracle
+Bewear,pokemon Bewear
+Bruxish,pokemon Bruxish
+Centiskorch,pokemon Centiskorch
+Coalossal,pokemon Coalossal
+Cryogonal,pokemon Cryogonal
+Diancie,pokemon Diancie
+Drampa,pokemon Drampa
+Druddigon,pokemon Druddigon
+Eelektross,pokemon Eelektross
+Froslass,pokemon Froslass
+Gallade,pokemon Gallade
+Garbodor,pokemon Garbodor
+Golisopod,pokemon Golisopod
+Greedent,pokemon Greedent
+Guzzlord,pokemon Guzzlord
+Hariyama,pokemon Hariyama
+Hitmontop,pokemon Hitmontop
+Jolteon,pokemon Jolteon
+Kabutops,pokemon Kabutops
+Kecleon,pokemon Kecleon
+Komala,pokemon Komala
+Linoone,pokemon Linoone
+Ludicolo,pokemon Ludicolo
+Manectric,pokemon Manectric
+Mantine,pokemon Mantine
+Mismagius,pokemon Mismagius
+Omastar,pokemon Omastar
+Piloswine,pokemon Piloswine
+Pincurchin,pokemon Pincurchin
+Poliwrath,pokemon Poliwrath
+Pyroar,pokemon Pyroar
+Raichu-Alola,pokemon Raichu-Alola
+Regirock,pokemon Regirock
+Rhydon,pokemon Rhydon
+Rotom-Fan,pokemon Rotom-Fan
+Runerigus,pokemon Runerigus
+Sawk,pokemon Sawk
+Shuckle,pokemon Shuckle
+Smeargle,pokemon Smeargle
+Spiritomb,pokemon Spiritomb
+Steelix,pokemon Steelix
+Trevenant,pokemon Trevenant
+Tsareena,pokemon Tsareena
+Typhlosion,pokemon Typhlosion
+Venusaur,pokemon Venusaur
+Vikavolt,pokemon Vikavolt
+Weezing,pokemon Weezing
+Zangoose,pokemon Zangoose
+Ability Shield,item wonder-launcher ability-urge
+Absorb Bulb,item hold-item absorb-bulb
+Apricot Berry,item berry apicot
+Blunder policy,item hold-item blunder-policy
+Cell battery,item hold-item cell-battery
+Flame orb,item hold-item flame-orb
+Ganion berry,item berry Ganion
+Lagging tail,item hold-item lagging-tail
+Lansat berry,item berry Lansat
+Leppa berry,item berry Leppa
+Liechi berry,item berry Liechi
+Luminous Moss,item hold-item luminous-moss
+Maranga berry,item berry Maranga
+Micle berry,item berry Micle
+Petaya berry,item berry Petaya
+Snowball,item hold-item snowball
+Starf berry,item berry Starf
+Sticky barb,item hold-item sticky-barb
+Toxic orb,item hold-item toxic-orb
+Weakness policy,item hold-item weakness-policy
+Aspear berry,item berry aspear
+Binding band,item hold-item  binding-band
+Big root,item hold-item big-root
+Destiny Knot,item hold-item destiny-knot
+Float stone,item hold-item float-stone
+Iron ball,item hold-item iron-ball
+Jaboca berry,item berry Jaboca
+Oran berry,item berry Oran
+Rowap berry,item berry Rowap
+Ring target,item hold-item ring-target
+Babiri berry,item berry Babiri
+Charti berry,item berry Charti
+Chilan berry,item berry Chilan
+Chople berry,item berry Chople
+Coba berry,item berry Coba
+Colbur berry,item berry Colbur
+Haban berry,item berry Haban
+Kasib berry,item berry Kasib
+Kebia berry,item berry Kebia
+Occa berry,item berry Occa
+Passho berry,item berry Passho
+Payapa berry,item berry Payapa
+Rindo berry,item berry Rindo
+Roseli Berry,item berry Roseli
+Shuca berry,item berry Shuca
+Tanga berry,item berry Tanga
+Wacan berry,item berry Wacan
+Yache berry,item berry Yache

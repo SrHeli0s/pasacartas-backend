@@ -132,7 +132,7 @@ def generateSobre(id):
 
 
 
-games = {}
+games = {0:0}
 gamesSobres = {}
 gamesFlags = {}
 
@@ -193,6 +193,9 @@ def isReadyGame(id):
     else:
         return {"state":0}
 
+@app.route("/generatePack", methods=['GET'])
+def generate_pack():
+    return {'pack': generateSobre(0)}
 
 #Picks the card n from the pack of the player
 @app.route("/pick/<id>/<n>", methods=['POST'])
