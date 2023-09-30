@@ -147,6 +147,11 @@ Shuca berry,item berry Shuca
 Tanga berry,item berry Tanga
 Wacan berry,item berry Wacan
 Yache berry,item berry Yache
+Leek,item curry-ingredient large-leek
+Stick,item hold-item stick
+Thick Club,item hold-item thick-club
+Light Ball,item hold-item light-ball
+Lucky punch,item hold-item lucky-punch
 Abomasite,item mega-stone abomasite 
 Absolite,item mega-stone absolite 
 Aerodactylite,item mega-stone aerodactylite 
@@ -160,8 +165,8 @@ Beedrillite,item mega-stone beedrillite
 Blastoisinite,item mega-stone blastoisinite 
 Blazikenite,item mega-stone blazikenite 
 Cameruptite,item mega-stone cameruptite 
-Charizardite-,item mega-stone charizardite-x
-Charizardite-,item mega-stone charizardite-y
+Charizardite-X,item mega-stone charizardite-x
+Charizardite-Y,item mega-stone charizardite-y
 Diancite,item mega-stone diancite 
 Galladite,item mega-stone galladite 
 Garchompite,item mega-stone garchompite 
@@ -180,8 +185,8 @@ Manectite,item mega-stone manectite
 Mawilite,item mega-stone mawilite 
 Medichamite,item mega-stone medichamite 
 Metagrossite,item mega-stone metagrossite 
-Mewtwonite-,item mega-stone mewtwonite-x
-Mewtwonite-,item mega-stone mewtwonite-y
+Mewtwonite-X,item mega-stone mewtwonite-x
+Mewtwonite-Y,item mega-stone mewtwonite-y
 Pidgeotite,item mega-stone pidgeotite 
 Pinsirite,item mega-stone pinsirite 
 Sablenite,item mega-stone sablenite 
