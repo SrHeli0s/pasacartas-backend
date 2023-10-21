@@ -206,6 +206,7 @@ def pick_card(id,n):
     data = json.loads(request.data.decode('utf-8'))
     playerid = data['playerid']
 
+
     gamesSobres[playerid].pop(int(n))
     print("[P",playerid,"] Deleted card ",int(n),". State of packs:",gamesSobres)
 
@@ -280,7 +281,7 @@ def load_data():
             legendaryCards.append(row)
     
     load_settings(None)
-    
+
 
 #Load settings
 def load_settings(data):
