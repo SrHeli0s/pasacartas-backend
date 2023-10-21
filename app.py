@@ -202,7 +202,6 @@ def generate_pack():
 @app.route("/pick/<id>/<n>", methods=['POST'])
 def pick_card(id,n):
     global gamesSobres
-
     data = json.loads(request.data.decode('utf-8'))
     playerid = data['playerid']
 
