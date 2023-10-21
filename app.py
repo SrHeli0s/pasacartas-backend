@@ -280,6 +280,7 @@ def load_data():
             legendaryCards.append(row)
     
     load_settings(None)
+    
 
 #Load settings
 def load_settings(data):
