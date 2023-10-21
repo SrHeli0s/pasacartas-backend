@@ -133,7 +133,7 @@ def generateSobre(id):
 
 
 games = {0:0}
-gamesSobres = {}
+gamesSobres = []
 gamesFlags = {}
 
 #Creates a new game
@@ -145,7 +145,7 @@ def newGame():
 
     id = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(4))
     games[id] = 0
-    gamesSobres[id] = [{}]
+    gamesSobres.append({})
     gamesFlags[id] = 0
 
     print("Created game "+id)
@@ -158,7 +158,7 @@ def joinGame(id):
     global games
 
     games[id] = games[id]+1
-    gamesSobres[id].append({})
+    gamesSobres.append({})
 
     return { 'code':id,'playerid':games[id] }
 
@@ -173,10 +173,10 @@ def startGame(id):
 
     if playerid!=0: return
 
-    gamesSobres[id][playerid] = generateSobre(id)
+    gamesSobres[playerid] = generateSobre(id)
     gamesFlags[id] = 1
 
-    return {"pack":gamesSobres[id][playerid]}
+    return {"pack":gamesSobres[playerid]}
 
 #Check if game is ready to start
 @app.route("/gamestarted/<id>", methods=['POST'])
@@ -188,8 +188,8 @@ def isReadyGame(id):
     playerid = data['playerid']
 
     if gamesFlags[id] == 1:
-        gamesSobres[id][playerid] = generateSobre(id)
-        return {"state":1,"pack":gamesSobres[id][playerid]}
+        gamesSobres[playerid] = generateSobre(id)
+        return {"state":1,"pack":gamesSobres[playerid]}
     else:
         return {"state":0}
 
@@ -205,15 +205,15 @@ def pick_card(id,n):
     data = json.loads(request.data.decode('utf-8'))
     playerid = data['playerid']
 
-    gamesSobres[id][playerid].pop(int(n))
-    print("[P",playerid,"] Deleted card ",int(n),". State of packs:",gamesSobres[id])
+    gamesSobres[playerid].pop(int(n))
+    print("[P",playerid,"] Deleted card ",int(n),". State of packs:",gamesSobres)
 
     #Check if is the last player to pick
     lastPlayer = True
-    for i in range(len(gamesSobres[id])):
-        if i != playerid and len(gamesSobres[id][i]) != len(gamesSobres[id][playerid]): lastPlayer = False
+    for i in range(len(gamesSobres)):
+        if i != playerid and len(gamesSobres[i]) != len(gamesSobres[playerid]): lastPlayer = False
     
-    if lastPlayer: gamesSobres[id].append(gamesSobres[id].pop(0))
+    if lastPlayer: gamesSobres.append(gamesSobres.pop(0))
 
 
     return {}
@@ -227,12 +227,12 @@ def isReadyNextRound(id):
     playerid = data['playerid']
     
     isReady = True
-    for i in range(len(gamesSobres[id])):
-        print("Check:",playerid,"(",len(gamesSobres[id][playerid]),")",i,"(",len(gamesSobres[id][i]),")")
-        if i != playerid and len(gamesSobres[id][i]) != len(gamesSobres[id][playerid]): isReady = False
+    for i in range(len(gamesSobres)):
+        print("Check:",playerid,"(",len(gamesSobres[playerid]),")",i,"(",len(gamesSobres[i]),")")
+        if i != playerid and len(gamesSobres[i]) != len(gamesSobres[playerid]): isReady = False
 
     if isReady:
-        return {"state":1,"pack":gamesSobres[id][playerid]}
+        return {"state":1,"pack":gamesSobres[playerid]}
     else:
         return {"state":0}
 
