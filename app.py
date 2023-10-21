@@ -143,7 +143,8 @@ def newGame():
     global games
     global gamesFlags
 
-    id = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(4))
+    # id = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(4))
+    id = 'XXXX'
     games[id] = 0
     gamesSobres.append({})
     gamesFlags[id] = 0
