@@ -6,6 +6,7 @@ import json
 import csv
 import random
 import copy
+from multiprocessing import Lock
 
 app = Flask(__name__)
 CORS(app)
@@ -135,6 +136,7 @@ def generateSobre(id):
 games = {0:0}
 gamesSobres = {}
 gamesFlags = {}
+mutexes = {}
 
 #Creates a new game
 @app.route("/new", methods=['GET'])
@@ -147,6 +149,8 @@ def newGame():
     games[id] = 0
     gamesSobres[id] = [{}]
     gamesFlags[id] = 0
+    mutexes[id] = Lock()
+
 
     print("Created game "+id)
     return { 'code':id,'playerid':0 }
@@ -154,44 +158,47 @@ def newGame():
 #Joins a new game and gets the correspondant playerID
 @app.route("/join/<id>", methods=['GET'])
 def joinGame(id):
-    global gamesSobres
-    global games
+    with mutexes[id]:
+        global gamesSobres
+        global games
 
-    games[id] = games[id]+1
-    gamesSobres[id].append({})
+        games[id] = games[id]+1
+        gamesSobres[id].append({})
 
-    return { 'code':id,'playerid':games[id] }
+        return { 'code':id,'playerid':games[id] }
 
 #Starts a game and gets the first pack. Only executed by host
 @app.route("/start/<id>", methods=['POST'])
 def startGame(id):
-    global gamesSobres
-    global gamesFlags
+    with mutexes[id]:
+        global gamesSobres
+        global gamesFlags
 
-    data = json.loads(request.data.decode('utf-8'))
-    playerid = data['playerid']
+        data = json.loads(request.data.decode('utf-8'))
+        playerid = data['playerid']
 
-    if playerid!=0: return
+        if playerid!=0: return
 
-    gamesSobres[id][playerid] = generateSobre(id)
-    gamesFlags[id] = 1
+        gamesSobres[id][playerid] = generateSobre(id)
+        gamesFlags[id] = 1
 
-    return {"pack":gamesSobres[id][playerid]}
+        return {"pack":gamesSobres[id][playerid]}
 
 #Check if game is ready to start
 @app.route("/gamestarted/<id>", methods=['POST'])
 def isReadyGame(id):
-    global gamesSobres
-    global gamesFlags
+    with mutexes[id]:
+        global gamesSobres
+        global gamesFlags
 
-    data = json.loads(request.data.decode('utf-8'))
-    playerid = data['playerid']
+        data = json.loads(request.data.decode('utf-8'))
+        playerid = data['playerid']
 
-    if gamesFlags[id] == 1:
-        gamesSobres[id][playerid] = generateSobre(id)
-        return {"state":1,"pack":gamesSobres[id][playerid]}
-    else:
-        return {"state":0}
+        if gamesFlags[id] == 1:
+            gamesSobres[id][playerid] = generateSobre(id)
+            return {"state":1,"pack":gamesSobres[id][playerid]}
+        else:
+            return {"state":0}
 
 @app.route("/generatePack", methods=['GET'])
 def generate_pack():
@@ -200,41 +207,43 @@ def generate_pack():
 #Picks the card n from the pack of the player
 @app.route("/pick/<id>/<n>", methods=['POST'])
 def pick_card(id,n):
-    global gamesSobres
+    with mutexes[id]:
+        global gamesSobres
 
-    data = json.loads(request.data.decode('utf-8'))
-    playerid = data['playerid']
+        data = json.loads(request.data.decode('utf-8'))
+        playerid = data['playerid']
 
-    gamesSobres[id][playerid].pop(int(n))
-    print("[P",playerid,"] Deleted card ",int(n),". State of packs:",gamesSobres[id])
+        gamesSobres[id][playerid].pop(int(n))
+        print("[P",playerid,"] Deleted card ",int(n),". State of packs:",gamesSobres[id])
 
-    #Check if is the last player to pick
-    lastPlayer = True
-    for i in range(len(gamesSobres[id])):
-        if i != playerid and len(gamesSobres[id][i]) != len(gamesSobres[id][playerid]): lastPlayer = False
-    
-    if lastPlayer: gamesSobres[id].append(gamesSobres[id].pop(0))
+        #Check if is the last player to pick
+        lastPlayer = True
+        for i in range(len(gamesSobres[id])):
+            if i != playerid and len(gamesSobres[id][i]) != len(gamesSobres[id][playerid]): lastPlayer = False
+        
+        if lastPlayer: gamesSobres[id].append(gamesSobres[id].pop(0))
 
 
-    return {}
+        return {}
 
 #Checks if all players picked. If so the next pack is sent
 @app.route("/isready/<id>", methods=['POST'])
 def isReadyNextRound(id):
-    global gamesSobres
+    with mutexes[id]:
+        global gamesSobres
 
-    data = json.loads(request.data.decode('utf-8'))
-    playerid = data['playerid']
-    
-    isReady = True
-    for i in range(len(gamesSobres[id])):
-        print("Check:",playerid,"(",len(gamesSobres[id][playerid]),")",i,"(",len(gamesSobres[id][i]),")")
-        if i != playerid and len(gamesSobres[id][i]) != len(gamesSobres[id][playerid]): isReady = False
+        data = json.loads(request.data.decode('utf-8'))
+        playerid = data['playerid']
+        
+        isReady = True
+        for i in range(len(gamesSobres[id])):
+            print("Check:",playerid,"(",len(gamesSobres[id][playerid]),")",i,"(",len(gamesSobres[id][i]),")")
+            if i != playerid and len(gamesSobres[id][i]) != len(gamesSobres[id][playerid]): isReady = False
 
-    if isReady:
-        return {"state":1,"pack":gamesSobres[id][playerid]}
-    else:
-        return {"state":0}
+        if isReady:
+            return {"state":1,"pack":gamesSobres[id][playerid]}
+        else:
+            return {"state":0}
 
 #Gets the configuration
 @app.route("/conf", methods=['GET'])
@@ -243,7 +252,7 @@ def get_conf():
 
     return {"data":conf}
 
-#Picks the card n from the pack of the player
+#Loads a configuration
 @app.route("/conf", methods=['POST'])
 def load_conf():
     data = json.loads(request.data.decode('utf-8'))
