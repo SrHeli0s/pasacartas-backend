@@ -204,6 +204,15 @@ def isReadyGame(id):
 def generate_pack():
     return {'pack': generateSobre(0)}
 
+@app.route("/getAll", methods=['GET'])
+def get_all():
+    global commonCards
+    global uncommonCards
+    global rareCards
+    global epicCards
+    global legendaryCards
+    return {'common': commonCards, 'uncommon':uncommonCards, 'rare':rareCards, 'epic':epicCards, 'legendary':legendaryCards}
+
 #Picks the card n from the pack of the player
 @app.route("/pick/<id>/<n>", methods=['POST'])
 def pick_card(id,n):
