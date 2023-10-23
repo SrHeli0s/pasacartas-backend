@@ -134,72 +134,82 @@ def generateSobre(id):
 
 
 manager = Manager()
-games = manager.dict()
-gamesSobres = manager.dict()
-gamesFlags = manager.dict()
+games = {}
+gamesSobres = {}
+gamesFlags = {}
+lock = manager.Lock()
 
 
 #Creates a new game
 @app.route("/new", methods=['GET'])
 def newGame():
-    global gamesSobres
-    global games
-    global gamesFlags
+    with lock.acquire():
+        global gamesSobres
+        global games
+        global gamesFlags
 
-    id = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(4))
-    games[id] = 0
-    gamesSobres[id] = [{}]
-    gamesFlags[id] = 0
+        id = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(4))
+        games[id] = 0
+        gamesSobres[id] = [{}]
+        gamesFlags[id] = 0
 
 
-    print("Created game "+id)
-    return { 'code':id,'playerid':0 }
+        print("Created game "+id)
+        lock.release()
+        return { 'code':id,'playerid':0 }
 
 #Joins a new game and gets the correspondant playerID
 @app.route("/join/<id>", methods=['GET'])
 def joinGame(id):
-    global gamesSobres
-    global games
+    with lock.acquire():
+        global gamesSobres
+        global games
 
-    games[id] = games[id]+1
-    gamesSobres[id].append({})
+        games[id] = games[id]+1
+        gamesSobres[id].append({})
 
-    return { 'code':id,'playerid':games[id] }
+        lock.release()
+        return { 'code':id,'playerid':games[id] }
 
 #Starts a game and gets the first pack. Only executed by host
 @app.route("/start/<id>", methods=['POST'])
 def startGame(id):
-    global gamesSobres
-    global gamesFlags
+    with lock.acquire():
+        global gamesSobres
+        global gamesFlags
 
-    print("======ANTES======",gamesSobres[id],gamesFlags[id])
+        print("======ANTES======",gamesSobres[id],gamesFlags[id])
 
-    data = json.loads(request.data.decode('utf-8'))
-    playerid = data['playerid']
+        data = json.loads(request.data.decode('utf-8'))
+        playerid = data['playerid']
 
-    if playerid!=0: return
+        if playerid!=0: return
 
-    gamesSobres[id][playerid] = copy.deepcopy(generateSobre(id))
-    gamesFlags[id] = 1
+        gamesSobres[id][playerid] = copy.deepcopy(generateSobre(id))
+        gamesFlags[id] = 1
 
-    print("======DESPUES======",gamesSobres[id],gamesFlags[id])
+        print("======DESPUES======",gamesSobres[id],gamesFlags[id])
 
-    return {"pack":gamesSobres[id][playerid]}
+        lock.release
+        return {"pack":gamesSobres[id][playerid]}
 
 #Check if game is ready to start
 @app.route("/gamestarted/<id>", methods=['POST'])
 def isReadyGame(id):
-    global gamesSobres
-    global gamesFlags
+    with lock.acquire():
+        global gamesSobres
+        global gamesFlags
 
-    data = json.loads(request.data.decode('utf-8'))
-    playerid = data['playerid']
+        data = json.loads(request.data.decode('utf-8'))
+        playerid = data['playerid']
 
-    if gamesFlags[id] == 1:
-        gamesSobres[id][playerid] = copy.deepcopy(generateSobre(id))
-        return {"state":1,"pack":gamesSobres[id][playerid]}
-    else:
-        return {"state":0}
+        if gamesFlags[id] == 1:
+            gamesSobres[id][playerid] = copy.deepcopy(generateSobre(id))
+            lock.release()
+            return {"state":1,"pack":gamesSobres[id][playerid]}
+        else:
+            lock.release()
+            return {"state":0}
 
 @app.route("/generatePack", methods=['GET'])
 def generate_pack():
@@ -217,41 +227,45 @@ def get_all():
 #Picks the card n from the pack of the player
 @app.route("/pick/<id>/<n>", methods=['POST'])
 def pick_card(id,n):
-    global gamesSobres
+    with lock.acquire():
+        global gamesSobres
 
-    data = json.loads(request.data.decode('utf-8'))
-    playerid = data['playerid']
+        data = json.loads(request.data.decode('utf-8'))
+        playerid = data['playerid']
 
-    gamesSobres[id][playerid].pop(int(n))
-    print("[P",playerid,"] Deleted card ",int(n),". State of packs:",gamesSobres[id])
+        gamesSobres[id][playerid].pop(int(n))
+        print("[P",playerid,"] Deleted card ",int(n),". State of packs:",gamesSobres[id])
 
-    #Check if is the last player to pick
-    lastPlayer = True
-    for i in range(len(gamesSobres[id])):
-        if i != playerid and len(gamesSobres[id][i]) != len(gamesSobres[id][playerid]): lastPlayer = False
-    
-    if lastPlayer: gamesSobres[id].append(gamesSobres[id].pop(0))
+        #Check if is the last player to pick
+        lastPlayer = True
+        for i in range(len(gamesSobres[id])):
+            if i != playerid and len(gamesSobres[id][i]) != len(gamesSobres[id][playerid]): lastPlayer = False
+        
+        if lastPlayer: gamesSobres[id].append(gamesSobres[id].pop(0))
 
-
-    return {}
+        lock.release()
+        return {}
 
 #Checks if all players picked. If so the next pack is sent
 @app.route("/isready/<id>", methods=['POST'])
 def isReadyNextRound(id):
-    global gamesSobres
+    with lock.acquire():
+        global gamesSobres
 
-    data = json.loads(request.data.decode('utf-8'))
-    playerid = data['playerid']
-    
-    isReady = True
-    for i in range(len(gamesSobres[id])):
-        print("Check:",playerid,"(",len(gamesSobres[id][playerid]),")",i,"(",len(gamesSobres[id][i]),")")
-        if i != playerid and len(gamesSobres[id][i]) != len(gamesSobres[id][playerid]): isReady = False
+        data = json.loads(request.data.decode('utf-8'))
+        playerid = data['playerid']
+        
+        isReady = True
+        for i in range(len(gamesSobres[id])):
+            print("Check:",playerid,"(",len(gamesSobres[id][playerid]),")",i,"(",len(gamesSobres[id][i]),")")
+            if i != playerid and len(gamesSobres[id][i]) != len(gamesSobres[id][playerid]): isReady = False
 
-    if isReady:
-        return {"state":1,"pack":gamesSobres[id][playerid]}
-    else:
-        return {"state":0}
+        if isReady:
+            lock.release()
+            return {"state":1,"pack":gamesSobres[id][playerid]}
+        else:
+            lock.release()
+            return {"state":0}
 
 #Gets the configuration
 @app.route("/conf", methods=['GET'])
