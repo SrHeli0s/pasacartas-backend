@@ -148,7 +148,7 @@ def newGame():
 
     id = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(4))
     games[id] = 0
-    gamesSobres[id] = [manager.dict()]
+    gamesSobres[id] = [{}]
     gamesFlags[id] = 0
 
 
@@ -162,7 +162,7 @@ def joinGame(id):
     global games
 
     games[id] = games[id]+1
-    gamesSobres[id].append(manager.dict())
+    gamesSobres[id].append({})
 
     return { 'code':id,'playerid':games[id] }
 
@@ -179,7 +179,7 @@ def startGame(id):
 
     if playerid!=0: return
 
-    gamesSobres[id][playerid] = generateSobre(id)
+    gamesSobres[id][playerid] = copy.deepcopy(generateSobre(id))
     gamesFlags[id] = 1
 
     print("======DESPUES======",gamesSobres[id],gamesFlags[id])
@@ -196,7 +196,7 @@ def isReadyGame(id):
     playerid = data['playerid']
 
     if gamesFlags[id] == 1:
-        gamesSobres[id][playerid] = generateSobre(id)
+        gamesSobres[id][playerid] = copy.deepcopy(generateSobre(id))
         return {"state":1,"pack":gamesSobres[id][playerid]}
     else:
         return {"state":0}
