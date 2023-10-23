@@ -197,7 +197,6 @@ def startGame(id):
 @app.route("/gamestarted/<id>", methods=['POST'])
 def isReadyGame(id):
     lock.acquire()
-    print("------GAMESTARTED antes:",gamesSobres,gamesFlags)
     global gamesSobres
     global gamesFlags
 
