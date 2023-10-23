@@ -35,6 +35,7 @@ def generateSobre(id):
     global legendaryCards
     output = []
     for x in range(nPacks):
+        print("STATE:",output)
         localCommonCards = copy.deepcopy(commonCards)
         localUncommonCards = copy.deepcopy(uncommonCards)
         localRareCards = copy.deepcopy(rareCards)
@@ -171,6 +172,8 @@ def startGame(id):
     global gamesSobres
     global gamesFlags
 
+    print("======ANTES======",gamesSobres[id],gamesFlags[id])
+
     data = json.loads(request.data.decode('utf-8'))
     playerid = data['playerid']
 
@@ -178,6 +181,8 @@ def startGame(id):
 
     gamesSobres[id][playerid] = generateSobre(id)
     gamesFlags[id] = 1
+
+    print("======DESPUES======",gamesSobres[id],gamesFlags[id])
 
     return {"pack":gamesSobres[id][playerid]}
 
