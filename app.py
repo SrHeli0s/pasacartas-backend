@@ -148,7 +148,7 @@ def newGame():
 
     id = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(4))
     games[id] = 0
-    gamesSobres[id] = [{}]
+    gamesSobres[id] = [manager.dict()]
     gamesFlags[id] = 0
 
 
@@ -162,7 +162,7 @@ def joinGame(id):
     global games
 
     games[id] = games[id]+1
-    gamesSobres[id].append({})
+    gamesSobres[id].append(manager.dict())
 
     return { 'code':id,'playerid':games[id] }
 
