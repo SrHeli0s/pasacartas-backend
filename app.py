@@ -178,17 +178,17 @@ def startGame(id):
     global gamesSobres
     global gamesFlags
 
-    print("======ANTES======",gamesSobres[id],gamesFlags[id])
+    print("======ANTES======",gamesSobres,gamesFlags)
 
     data = json.loads(request.data.decode('utf-8'))
     playerid = data['playerid']
 
     if playerid!=0: return
 
-    gamesSobres[id][playerid] = copy.deepcopy(generateSobre(id))
+    gamesSobres[id][playerid] = generateSobre(id)
     gamesFlags[id] = 1
 
-    print("======DESPUES======",gamesSobres[id],gamesFlags[id])
+    print("======DESPUES======",gamesSobres,gamesFlags)
 
     lock.release
     return {"pack":gamesSobres[id][playerid]}
