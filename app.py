@@ -197,11 +197,16 @@ def startGame(id):
 @app.route("/gamestarted/<id>", methods=['POST'])
 def isReadyGame(id):
     lock.acquire()
+    print("------GAMESTARTED antes:",gamesSobres,gamesFlags)
     global gamesSobres
     global gamesFlags
 
+    print("------GAMESTARTED global:",gamesSobres,gamesFlags)
+
     data = json.loads(request.data.decode('utf-8'))
     playerid = data['playerid']
+
+    print("------GAMESTARTED playerid:",playerid)
 
     if gamesFlags[id] == 1:
         gamesSobres[id][playerid] = copy.deepcopy(generateSobre(id))
