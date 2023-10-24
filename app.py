@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 import random
 import string
@@ -6,9 +6,22 @@ import json
 import csv
 import random
 import copy
-from multiprocessing import Manager
+from config import config 
+from models import Game, db
 
-app = Flask(__name__)
+def create_app(enviroment):
+    app = Flask(__name__)
+
+    app.config.from_object(enviroment)
+
+    with app.app_context():
+        db.init_app(app)
+        db.create_all()
+
+    return app
+
+enviroment = config["development"]
+app = create_app(enviroment)
 CORS(app)
 
 commonCards = []
@@ -35,14 +48,25 @@ def generateSobre(id):
     global legendaryCards
     output = []
     for x in range(nPacks):
-        print("STATE:",output)
         localCommonCards = copy.deepcopy(commonCards)
         localUncommonCards = copy.deepcopy(uncommonCards)
         localRareCards = copy.deepcopy(rareCards)
         localEpicCards = copy.deepcopy(epicCards)
         localLegendaryCards = copy.deepcopy(legendaryCards)
         localprobability = copy.deepcopy(probs)
-        n = nCards if nCards>0 else games[id]+1
+
+        if nCards>0:
+            n = nCards
+        else:
+            if (id==0): 
+                n = 1
+            else:
+                game = Game.query.filter_by(id=id).first()
+                if game is None:
+                    return jsonify({'message': 'Game does not exists'}), 404
+                n = game.players+1
+        
+          
 
         for i in range(n):
             rng = random.random()
@@ -130,89 +154,80 @@ def generateSobre(id):
     return output
 
 
-    
-
-
-manager = Manager()
-games = {}
-gamesSobres = {}
-gamesFlags = {}
-lock = manager.Lock()
-
 
 #Creates a new game
 @app.route("/new", methods=['GET'])
 def newGame():
-    lock.acquire()
-    global gamesSobres
-    global games
-    global gamesFlags
-
-    id = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(4))
-    games[id] = 0
-    gamesSobres[id] = [{}]
-    gamesFlags[id] = 0
-
+    id = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
+    game = Game.create(id)
 
     print("Created game "+id)
-    lock.release()
     return { 'code':id,'playerid':0 }
 
 #Joins a new game and gets the correspondant playerID
 @app.route("/join/<id>", methods=['GET'])
 def joinGame(id):
-    lock.acquire()
-    global gamesSobres
-    global games
 
-    games[id] = games[id]+1
-    gamesSobres[id].append({})
+    game = Game.query.filter_by(id=id).first()
+    if game is None:
+        return jsonify({'message': 'Game does not exists'}), 404
 
-    lock.release()
-    return { 'code':id,'playerid':games[id] }
+    print("JOIN ANTES", game.json())
+    game.players += 1
+
+    packs = game.getPacks()
+    packs.append({})
+    game.setPacks(packs)
+
+    game.update()
+    print("JOIN DESPUES", game.json())
+
+    return { 'code':id,'playerid':game.players }
 
 #Starts a game and gets the first pack. Only executed by host
 @app.route("/start/<id>", methods=['POST'])
 def startGame(id):
-    lock.acquire()
-    global gamesSobres
-    global gamesFlags
-
-    print("======ANTES======",gamesSobres,gamesFlags)
-
+    game = Game.query.filter_by(id=id).first()
+    if game is None:
+        return jsonify({'message': 'Game does not exists'}), 404
+    
     data = json.loads(request.data.decode('utf-8'))
     playerid = data['playerid']
 
     if playerid!=0: return
 
-    gamesSobres[id][playerid] = generateSobre(id)
-    gamesFlags[id] = 1
+    print("START ANTES:",game.json())
+    packs = game.getPacks()
+    packs[playerid] = copy.deepcopy(generateSobre(id))
+    game.setPacks(packs)
 
-    print("======DESPUES======",gamesSobres,gamesFlags)
+    game.flag = 1
 
-    lock.release
-    return {"pack":gamesSobres[id][playerid]}
+    game.update()
+
+    print("START DESPUES:",game.json())
+
+    return {"pack":game.getPacks()[playerid]}
 
 #Check if game is ready to start
 @app.route("/gamestarted/<id>", methods=['POST'])
 def isReadyGame(id):
-    lock.acquire()
-    global gamesSobres
-    global gamesFlags
-
-    print("------GAMESTARTED global:",gamesSobres,gamesFlags)
-
+    game = Game.query.filter_by(id=id).first()
+    if game is None:
+        return jsonify({'message': 'Game does not exists'}), 404
+    
     data = json.loads(request.data.decode('utf-8'))
     playerid = data['playerid']
 
-    print("------GAMESTARTED playerid:",playerid)
+    if game.flag == 1:
+        packs = game.getPacks()
+        packs[playerid] = copy.deepcopy(generateSobre(id))
+        game.setPacks(packs)
+    
+        game.update()
 
-    if gamesFlags[id] == 1:
-        gamesSobres[id][playerid] = copy.deepcopy(generateSobre(id))
-        lock.release()
-        return {"state":1,"pack":gamesSobres[id][playerid]}
+        return {"state":1,"pack":game.getPacks()[playerid]}
     else:
-        lock.release()
         return {"state":0}
 
 @app.route("/generatePack", methods=['GET'])
@@ -231,44 +246,51 @@ def get_all():
 #Picks the card n from the pack of the player
 @app.route("/pick/<id>/<n>", methods=['POST'])
 def pick_card(id,n):
-    lock.acquire()
-    global gamesSobres
+    game = Game.query.filter_by(id=id).first()
+    if game is None:
+        return jsonify({'message': 'Game does not exists'}), 404
 
     data = json.loads(request.data.decode('utf-8'))
     playerid = data['playerid']
 
-    gamesSobres[id][playerid].pop(int(n))
-    print("[P",playerid,"] Deleted card ",int(n),". State of packs:",gamesSobres[id])
+    packs = game.getPacks()
+    packs[playerid].pop(int(n))
+    game.setPacks(packs)
+
+    print("[P",playerid,"] Pick card ",int(n),". State of packs:",game.getPacks()[playerid])
 
     #Check if is the last player to pick
     lastPlayer = True
-    for i in range(len(gamesSobres[id])):
-        if i != playerid and len(gamesSobres[id][i]) != len(gamesSobres[id][playerid]): lastPlayer = False
+    for i in range(len(packs)):
+        if i != playerid and len(packs[i]) != len(packs[playerid]): lastPlayer = False
     
-    if lastPlayer: gamesSobres[id].append(gamesSobres[id].pop(0))
+    if lastPlayer: 
+        packs.append(packs.pop(0))
+        game.setPacks(packs)
 
-    lock.release()
+    game.update()
+
     return {}
 
 #Checks if all players picked. If so the next pack is sent
 @app.route("/isready/<id>", methods=['POST'])
 def isReadyNextRound(id):
-    lock.acquire()
-    global gamesSobres
+    game = Game.query.filter_by(id=id).first()
+    if game is None:
+        return jsonify({'message': 'Game does not exists'}), 404
 
     data = json.loads(request.data.decode('utf-8'))
     playerid = data['playerid']
+    packs = game.getPacks()
     
     isReady = True
-    for i in range(len(gamesSobres[id])):
-        print("Check:",playerid,"(",len(gamesSobres[id][playerid]),")",i,"(",len(gamesSobres[id][i]),")")
-        if i != playerid and len(gamesSobres[id][i]) != len(gamesSobres[id][playerid]): isReady = False
+    for i in range(len(packs)):
+        print("Check:",playerid,"(",len(packs[playerid]),")",i,"(",len(packs[i]),")")
+        if i != playerid and len(packs[i]) != len(packs[playerid]): isReady = False
 
     if isReady:
-        lock.release()
-        return {"state":1,"pack":gamesSobres[id][playerid]}
+        return {"state":1,"pack":packs[playerid]}
     else:
-        lock.release()
         return {"state":0}
 
 #Gets the configuration
@@ -337,4 +359,3 @@ def load_settings(data):
 with app.app_context():
     load_data()
     print("Data loaded successfully!")
-    games[0] = 0

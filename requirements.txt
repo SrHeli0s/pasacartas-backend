@@ -1,2 +1,8 @@
 flask
 flask_cors
+flask_restful
+flask_sqlalchemy
+flask_migrate
+flask_marshmallow
+marshmallow-sqlalchemy
+psycopg2-binary
