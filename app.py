@@ -198,7 +198,7 @@ def startGame(id):
 
     print("START ANTES:",game.json())
     packs = game.getPacks()
-    for i in range(game.players):
+    for i in range(game.players+1):
         packs[i] = copy.deepcopy(generateSobre(id))
     game.setPacks(packs)
 
