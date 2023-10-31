@@ -198,7 +198,8 @@ def startGame(id):
 
     print("START ANTES:",game.json())
     packs = game.getPacks()
-    packs[playerid] = copy.deepcopy(generateSobre(id))
+    for i in range(game.players):
+        packs[i] = copy.deepcopy(generateSobre(id))
     game.setPacks(packs)
 
     game.flag = 1
@@ -207,7 +208,7 @@ def startGame(id):
 
     print("START DESPUES:",game.json())
 
-    return {"pack":game.getPacks()[playerid]}
+    return {"pack":packs[playerid]}
 
 #Check if game is ready to start
 @app.route("/gamestarted/<id>", methods=['POST'])
@@ -220,12 +221,6 @@ def isReadyGame(id):
     playerid = data['playerid']
 
     if game.flag == 1:
-        packs = game.getPacks()
-        packs[playerid] = copy.deepcopy(generateSobre(id))
-        game.setPacks(packs)
-    
-        game.update()
-
         return {"state":1,"pack":game.getPacks()[playerid]}
     else:
         return {"state":0}
