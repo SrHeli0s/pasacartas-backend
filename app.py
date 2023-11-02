@@ -1,5 +1,8 @@
+import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
 import random
 import string
 import json
@@ -37,6 +40,7 @@ minProbAfterMod = 0
 nCards = 0
 nPacks = 0
 
+engine = create_engine(os.environ.get('SQLALCHEMY_DATABASE_URI'))
 
 def generateSobre(id):
     global mods
@@ -167,48 +171,52 @@ def newGame():
 #Joins a new game and gets the correspondant playerID
 @app.route("/join/<id>", methods=['GET'])
 def joinGame(id):
+    with Session(engine) as session:
+        game = Game.query.filter_by(id=id).with_for_update().one()
 
-    game = Game.query.filter_by(id=id).first()
-    if game is None:
-        return jsonify({'message': 'Game does not exists'}), 404
+        if game is None:
+            return jsonify({'message': 'Game does not exists'}), 404
 
-    print("JOIN ANTES", game.json())
-    game.players += 1
+        print("JOIN ANTES", game.json())
+        game.players += 1
 
-    packs = game.getPacks()
-    packs.append({})
-    game.setPacks(packs)
+        packs = game.getPacks()
+        packs.append({})
+        game.setPacks(packs)
 
-    game.update()
-    print("JOIN DESPUES", game.json())
+        game.update()
+        print("JOIN DESPUES", game.json())
+        session.commit()
 
-    return { 'code':id,'playerid':game.players }
+        return { 'code':id,'playerid':game.players }
 
 #Starts a game and gets the first pack. Only executed by host
 @app.route("/start/<id>", methods=['POST'])
 def startGame(id):
-    game = Game.query.filter_by(id=id).first()
-    if game is None:
-        return jsonify({'message': 'Game does not exists'}), 404
-    
-    data = json.loads(request.data.decode('utf-8'))
-    playerid = data['playerid']
+    with Session(engine) as session:
+        game = Game.query.filter_by(id=id).with_for_update().one()
+        if game is None:
+            return jsonify({'message': 'Game does not exists'}), 404
+        
+        data = json.loads(request.data.decode('utf-8'))
+        playerid = data['playerid']
 
-    if playerid!=0: return
+        if playerid!=0: return
 
-    print("START ANTES:",game.json())
-    packs = game.getPacks()
-    for i in range(game.players+1):
-        packs[i] = copy.deepcopy(generateSobre(id))
-    game.setPacks(packs)
+        print("START ANTES:",game.json())
+        packs = game.getPacks()
+        for i in range(game.players+1):
+            packs[i] = copy.deepcopy(generateSobre(id))
+        game.setPacks(packs)
 
-    game.flag = 1
+        game.flag = 1
 
-    game.update()
+        game.update()
 
-    print("START DESPUES:",game.json())
+        print("START DESPUES:",game.json())
+        session.commit()
 
-    return {"pack":packs[playerid]}
+        return {"pack":packs[playerid]}
 
 #Check if game is ready to start
 @app.route("/gamestarted/<id>", methods=['POST'])
@@ -241,31 +249,33 @@ def get_all():
 #Picks the card n from the pack of the player
 @app.route("/pick/<id>/<n>", methods=['POST'])
 def pick_card(id,n):
-    game = Game.query.filter_by(id=id).first()
-    if game is None:
-        return jsonify({'message': 'Game does not exists'}), 404
+    with Session(engine) as session:
+        game = Game.query.filter_by(id=id).with_for_update().one()
+        if game is None:
+            return jsonify({'message': 'Game does not exists'}), 404
 
-    data = json.loads(request.data.decode('utf-8'))
-    playerid = data['playerid']
+        data = json.loads(request.data.decode('utf-8'))
+        playerid = data['playerid']
 
-    packs = game.getPacks()
-    packs[playerid].pop(int(n))
-    game.setPacks(packs)
-
-    print("[P",playerid,"] Pick card ",int(n),". State of packs:",game.getPacks()[playerid])
-
-    #Check if is the last player to pick
-    lastPlayer = True
-    for i in range(len(packs)):
-        if i != playerid and len(packs[i]) != len(packs[playerid]): lastPlayer = False
-    
-    if lastPlayer: 
-        packs.append(packs.pop(0))
+        packs = game.getPacks()
+        packs[playerid].pop(int(n))
         game.setPacks(packs)
 
-    game.update()
+        print("[P",playerid,"] Pick card ",int(n),". State of packs:",game.getPacks()[playerid])
 
-    return {}
+        #Check if is the last player to pick
+        lastPlayer = True
+        for i in range(len(packs)):
+            if i != playerid and len(packs[i]) != len(packs[playerid]): lastPlayer = False
+        
+        if lastPlayer: 
+            packs.append(packs.pop(0))
+            game.setPacks(packs)
+
+        game.update()
+        session.commit()
+
+        return {}
 
 #Checks if all players picked. If so the next pack is sent
 @app.route("/isready/<id>", methods=['POST'])
