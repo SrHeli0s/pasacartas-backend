@@ -27,8 +27,6 @@ class Game(db.Model):
     def save(self):
         try:
             db.session.add(self)
-            db.session.commit()
-
             return self
         except:
             return False
@@ -39,8 +37,6 @@ class Game(db.Model):
     def delete(self):
         try:
             db.session.delete(self)
-            db.session.commit()
-
             return True
         except:
             return False

@@ -9,6 +9,7 @@ import json
 import csv
 import random
 import copy
+import time
 from config import config 
 from models import Game, db
 
@@ -171,52 +172,53 @@ def newGame():
 #Joins a new game and gets the correspondant playerID
 @app.route("/join/<id>", methods=['GET'])
 def joinGame(id):
-    with Session(engine) as session:
-        game = Game.query.filter_by(id=id).with_for_update().one()
+    db.session.begin()
+    
+    game = Game.query.filter_by(id=id).with_for_update().one()
 
-        if game is None:
-            return jsonify({'message': 'Game does not exists'}), 404
+    if game is None:
+        return jsonify({'message': 'Game does not exists'}), 404
 
-        print("JOIN ANTES", game.json())
-        game.players += 1
+    print("JOIN ANTES", game.json())
+    game.players += 1
 
-        packs = game.getPacks()
-        packs.append({})
-        game.setPacks(packs)
+    packs = game.getPacks()
+    packs.append({})
+    game.setPacks(packs)
 
-        game.update()
-        print("JOIN DESPUES", game.json())
-        session.commit()
+    game.update()
+    print("JOIN DESPUES", game.json())
+    db.session.commit()
 
-        return { 'code':id,'playerid':game.players }
+    return { 'code':id,'playerid':game.players }
 
 #Starts a game and gets the first pack. Only executed by host
 @app.route("/start/<id>", methods=['POST'])
 def startGame(id):
-    with Session(engine) as session:
-        game = Game.query.filter_by(id=id).with_for_update().one()
-        if game is None:
-            return jsonify({'message': 'Game does not exists'}), 404
-        
-        data = json.loads(request.data.decode('utf-8'))
-        playerid = data['playerid']
+    db.session.begin()
+    game = Game.query.filter_by(id=id).with_for_update().one()
+    if game is None:
+        return jsonify({'message': 'Game does not exists'}), 404
+    
+    data = json.loads(request.data.decode('utf-8'))
+    playerid = data['playerid']
 
-        if playerid!=0: return
+    if playerid!=0: return
 
-        print("START ANTES:",game.json())
-        packs = game.getPacks()
-        for i in range(game.players+1):
-            packs[i] = copy.deepcopy(generateSobre(id))
-        game.setPacks(packs)
+    print("START ANTES:",game.json())
+    packs = game.getPacks()
+    for i in range(game.players+1):
+        packs[i] = copy.deepcopy(generateSobre(id))
+    game.setPacks(packs)
 
-        game.flag = 1
+    game.flag = 1
 
-        game.update()
+    game.update()
 
-        print("START DESPUES:",game.json())
-        session.commit()
+    print("START DESPUES:",game.json())
+    db.session.commit()
 
-        return {"pack":packs[playerid]}
+    return {"pack":packs[playerid]}
 
 #Check if game is ready to start
 @app.route("/gamestarted/<id>", methods=['POST'])
@@ -249,33 +251,35 @@ def get_all():
 #Picks the card n from the pack of the player
 @app.route("/pick/<id>/<n>", methods=['POST'])
 def pick_card(id,n):
-    with Session(engine) as session:
-        game = Game.query.filter_by(id=id).with_for_update().one()
-        if game is None:
-            return jsonify({'message': 'Game does not exists'}), 404
+    db.session.begin()
+    game = Game.query.filter_by(id=id).with_for_update().one()
+    if game is None:
+        return jsonify({'message': 'Game does not exists'}), 404
 
-        data = json.loads(request.data.decode('utf-8'))
-        playerid = data['playerid']
+    data = json.loads(request.data.decode('utf-8'))
+    playerid = data['playerid']
 
-        packs = game.getPacks()
-        packs[playerid].pop(int(n))
+    packs = game.getPacks()
+    packs[playerid].pop(int(n))
+    game.setPacks(packs)
+
+    print("[P",playerid,"] Pick card ",int(n),". State of packs:",game.getPacks()[playerid])
+
+    time.sleep(5)
+
+    #Check if is the last player to pick
+    lastPlayer = True
+    for i in range(len(packs)):
+        if i != playerid and len(packs[i]) != len(packs[playerid]): lastPlayer = False
+    
+    if lastPlayer: 
+        packs.append(packs.pop(0))
         game.setPacks(packs)
 
-        print("[P",playerid,"] Pick card ",int(n),". State of packs:",game.getPacks()[playerid])
+    game.update()
+    db.session.commit()
 
-        #Check if is the last player to pick
-        lastPlayer = True
-        for i in range(len(packs)):
-            if i != playerid and len(packs[i]) != len(packs[playerid]): lastPlayer = False
-        
-        if lastPlayer: 
-            packs.append(packs.pop(0))
-            game.setPacks(packs)
-
-        game.update()
-        session.commit()
-
-        return {}
+    return {}
 
 #Checks if all players picked. If so the next pack is sent
 @app.route("/isready/<id>", methods=['POST'])
