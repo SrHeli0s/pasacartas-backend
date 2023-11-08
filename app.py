@@ -163,8 +163,11 @@ def generateSobre(id):
 #Creates a new game
 @app.route("/new", methods=['GET'])
 def newGame():
+    db.session.begin()
     id = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
     game = Game.create(id)
+
+    db.session.commit()
 
     print("Created game "+id)
     return { 'code':id,'playerid':0 }
@@ -275,7 +278,7 @@ def pick_card(id,n):
         packs.append(packs.pop(0))
         game.setPacks(packs)
 
-        
+
     time.sleep(5)
 
     game.update()
