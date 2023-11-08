@@ -265,7 +265,7 @@ def pick_card(id,n):
 
     print("[P",playerid,"] Pick card ",int(n),". State of packs:",game.getPacks()[playerid])
 
-    time.sleep(5)
+    # time.sleep(5)
 
     #Check if is the last player to pick
     lastPlayer = True
