@@ -265,7 +265,6 @@ def pick_card(id,n):
 
     print("[P",playerid,"] Pick card ",int(n),". State of packs:",game.getPacks()[playerid])
 
-    # time.sleep(5)
 
     #Check if is the last player to pick
     lastPlayer = True
@@ -275,6 +274,9 @@ def pick_card(id,n):
     if lastPlayer: 
         packs.append(packs.pop(0))
         game.setPacks(packs)
+
+        
+    time.sleep(5)
 
     game.update()
     db.session.commit()
