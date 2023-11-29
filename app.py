@@ -66,17 +66,16 @@ def generateSobre(id):
     global metalegendaryCards
     global meta
     output = []
+    print("value",nPacks)
     for x in range(nPacks):
         localprobability = copy.deepcopy(probs)
         if meta:
-            print("META")
             localCommonCards = copy.deepcopy(metacommonCards)
             localUncommonCards = copy.deepcopy(metauncommonCards)
             localRareCards = copy.deepcopy(metarareCards)
             localEpicCards = copy.deepcopy(metaepicCards)
             localLegendaryCards = copy.deepcopy(metalegendaryCards)
         else:
-            print("NOT META")
             localCommonCards = copy.deepcopy(commonCards)
             localUncommonCards = copy.deepcopy(uncommonCards)
             localRareCards = copy.deepcopy(rareCards)
