@@ -66,7 +66,6 @@ def generateSobre(id):
     global metalegendaryCards
     global meta
     output = []
-    print("value",nPacks)
     for x in range(nPacks):
         localprobability = copy.deepcopy(probs)
         if meta:
@@ -415,7 +414,7 @@ def load_settings(data):
     global nPacks
     nPacks = data["nPacks"]
     global meta
-    nPacks = data["meta"]
+    meta = data["meta"]
 
 with app.app_context():
     load_data()
