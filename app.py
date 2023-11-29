@@ -396,6 +396,7 @@ def load_data():
 #Load settings
 def load_settings(data):
     if data==None:
+        print("Settings not found, defaulting...")
         with open(data_dir+'settings.json','r') as f:
             data = json.load(f)
     
