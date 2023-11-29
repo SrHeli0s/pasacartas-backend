@@ -392,6 +392,7 @@ def load_data():
         for row in reader:
             metalegendaryCards.append(row)
     
+    print(metalegendaryCards)
     load_settings(None)
 
 #Load settings
