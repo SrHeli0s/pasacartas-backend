@@ -50,7 +50,7 @@ nPacks = 0
 
 engine = create_engine(os.environ.get('SQLALCHEMY_DATABASE_URI'))
 
-def generateSobre(id,meta=False):
+def generateSobre(id):
     global mods
     global probs
     global commonCards
@@ -64,6 +64,7 @@ def generateSobre(id,meta=False):
     global metarareCards
     global metaepicCards
     global metalegendaryCards
+    global meta
     output = []
     for x in range(nPacks):
         localprobability = copy.deepcopy(probs)
@@ -224,13 +225,11 @@ def startGame(id):
     data = json.loads(request.data.decode('utf-8'))
     playerid = data['playerid']
 
-    load_settings(data['settings'])
-
     if playerid!=0: return
 
     packs = game.getPacks()
     for i in range(game.players+1):
-        packs[i] = copy.deepcopy(generateSobre(id,data['settings']['meta']))
+        packs[i] = copy.deepcopy(generateSobre(id))
     game.setPacks(packs)
 
     game.flag = 1
@@ -256,9 +255,11 @@ def isReadyGame(id):
     else:
         return {"state":0}
 
-@app.route("/generatePack/<meta>", methods=['GET'])
-def generate_pack(meta):
-    return {'pack': generateSobre(0, int(meta)==1)}
+@app.route("/generatePack/<param>", methods=['GET'])
+def generate_pack(param):
+    global meta
+    meta = int(param)==1
+    return {'pack': generateSobre(0)}
 
 @app.route("/getAll", methods=['GET'])
 def get_all():
