@@ -266,7 +266,13 @@ def get_all():
     global rareCards
     global epicCards
     global legendaryCards
-    return {'common': commonCards, 'uncommon':uncommonCards, 'rare':rareCards, 'epic':epicCards, 'legendary':legendaryCards}
+    global metacommonCards
+    global metauncommonCards
+    global metarareCards
+    global metaepicCards
+    global metalegendaryCards
+    return {'normal':{'common': commonCards, 'uncommon':uncommonCards, 'rare':rareCards, 'epic':epicCards, 'legendary':legendaryCards}, 'meta':{'common': metacommonCards, 'uncommon':metauncommonCards, 'rare':metarareCards, 'epic':metaepicCards, 'legendary':metalegendaryCards}}
+
 
 #Picks the card n from the pack of the player
 @app.route("/pick/<id>/<n>", methods=['POST'])
