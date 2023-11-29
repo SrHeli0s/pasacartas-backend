@@ -42,6 +42,7 @@ metalegendaryCards = []
 
 mods = {}
 probs = {}
+meta = False
 minProbAfterMod = 0
 
 nCards = 0
