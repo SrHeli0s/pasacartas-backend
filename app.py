@@ -34,6 +34,12 @@ rareCards = []
 epicCards = []
 legendaryCards = []
 
+metacommonCards = []
+metauncommonCards = []
+metarareCards = []
+metaepicCards = []
+metalegendaryCards = []
+
 mods = {}
 probs = {}
 minProbAfterMod = 0
@@ -43,7 +49,7 @@ nPacks = 0
 
 engine = create_engine(os.environ.get('SQLALCHEMY_DATABASE_URI'))
 
-def generateSobre(id):
+def generateSobre(id,meta=False):
     global mods
     global probs
     global commonCards
@@ -51,14 +57,27 @@ def generateSobre(id):
     global rareCards
     global epicCards
     global legendaryCards
+
+    global metacommonCards
+    global metauncommonCards
+    global metarareCards
+    global metaepicCards
+    global metalegendaryCards
     output = []
     for x in range(nPacks):
-        localCommonCards = copy.deepcopy(commonCards)
-        localUncommonCards = copy.deepcopy(uncommonCards)
-        localRareCards = copy.deepcopy(rareCards)
-        localEpicCards = copy.deepcopy(epicCards)
-        localLegendaryCards = copy.deepcopy(legendaryCards)
         localprobability = copy.deepcopy(probs)
+        if meta:
+            localCommonCards = copy.deepcopy(metacommonCards)
+            localUncommonCards = copy.deepcopy(metauncommonCards)
+            localRareCards = copy.deepcopy(metarareCards)
+            localEpicCards = copy.deepcopy(metaepicCards)
+            localLegendaryCards = copy.deepcopy(metalegendaryCards)
+        else:
+            localCommonCards = copy.deepcopy(commonCards)
+            localUncommonCards = copy.deepcopy(uncommonCards)
+            localRareCards = copy.deepcopy(rareCards)
+            localEpicCards = copy.deepcopy(epicCards)
+            localLegendaryCards = copy.deepcopy(legendaryCards)
 
         if nCards>0:
             n = nCards
@@ -182,7 +201,6 @@ def joinGame(id):
     if game is None:
         return jsonify({'message': 'Game does not exists'}), 404
 
-    print("JOIN ANTES", game.json())
     game.players += 1
 
     packs = game.getPacks()
@@ -190,7 +208,6 @@ def joinGame(id):
     game.setPacks(packs)
 
     game.update()
-    print("JOIN DESPUES", game.json())
     db.session.commit()
 
     return { 'code':id,'playerid':game.players }
@@ -206,9 +223,10 @@ def startGame(id):
     data = json.loads(request.data.decode('utf-8'))
     playerid = data['playerid']
 
+    load_settings(data['settings'])
+
     if playerid!=0: return
 
-    print("START ANTES:",game.json())
     packs = game.getPacks()
     for i in range(game.players+1):
         packs[i] = copy.deepcopy(generateSobre(id))
@@ -218,7 +236,6 @@ def startGame(id):
 
     game.update()
 
-    print("START DESPUES:",game.json())
     db.session.commit()
 
     return {"pack":packs[playerid]}
@@ -238,9 +255,9 @@ def isReadyGame(id):
     else:
         return {"state":0}
 
-@app.route("/generatePack", methods=['GET'])
-def generate_pack():
-    return {'pack': generateSobre(0)}
+@app.route("/generatePack/<meta>", methods=['GET'])
+def generate_pack(meta):
+    return {'pack': generateSobre(0, int(meta)==1)}
 
 @app.route("/getAll", methods=['GET'])
 def get_all():
@@ -346,6 +363,27 @@ def load_data():
         for row in reader:
             legendaryCards.append(row)
     
+    with open(data_dir+'metagame/1common.csv','r') as csvfile:
+        reader = csv.reader(csvfile, delimiter=',')
+        for row in reader:
+            metacommonCards.append(row)
+    with open(data_dir+'metagame/2uncommon.csv','r') as csvfile:
+        reader = csv.reader(csvfile, delimiter=',')
+        for row in reader:
+            metauncommonCards.append(row)
+    with open(data_dir+'metagame/3rare.csv','r') as csvfile:
+        reader = csv.reader(csvfile, delimiter=',')
+        for row in reader:
+            metarareCards.append(row)
+    with open(data_dir+'metagame/4epic.csv','r') as csvfile:
+        reader = csv.reader(csvfile, delimiter=',')
+        for row in reader:
+            metaepicCards.append(row)
+    with open(data_dir+'metagame/5legendary.csv','r') as csvfile:
+        reader = csv.reader(csvfile, delimiter=',')
+        for row in reader:
+            metalegendaryCards.append(row)
+    
     load_settings(None)
 
 #Load settings
@@ -364,8 +402,10 @@ def load_settings(data):
     minProbAfterMod = data["minProbAfterMod"]
     global nCards
     nCards = data["nCardsInPack"]
-    global nPacks    
+    global nPacks
     nPacks = data["nPacks"]
+    global meta
+    nPacks = data["meta"]
 
 with app.app_context():
     load_data()
