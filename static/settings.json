@@ -47,5 +47,6 @@
             "legendarymod":-0.05
         }
     },
-    "minProbAfterMod": 0.025 
+    "minProbAfterMod": 0.025,
+    "meta":false
 }
