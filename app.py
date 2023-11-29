@@ -230,7 +230,7 @@ def startGame(id):
 
     packs = game.getPacks()
     for i in range(game.players+1):
-        packs[i] = copy.deepcopy(generateSobre(id))
+        packs[i] = copy.deepcopy(generateSobre(id,data['settings']['meta']))
     game.setPacks(packs)
 
     game.flag = 1
